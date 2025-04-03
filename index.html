@@ -1,685 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
+    <meta name="author" content="handy">
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
-
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="handy">
-<meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Hexo</title>
-  
+
+
+
+    <link rel="icon" href="/favicon.ico">
 
 
 
 
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
 
 
 
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
-
-  
-
-
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
 
 
 
-
-  
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <h1 class="site-title">Hexo</h1>
-      <i class="logo-line"></i>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="Search" role="button">
-    </div>
-  </div>
-</div>
+    
+    
+        
+    
 
 
+<meta name="generator" content="Hexo 7.3.0"></head>
 
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
 
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Handy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
 
-
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Handy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
 
 </header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-overview-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                
+    <div class="container profile-container">
+    <div class="intro">
+        <div class="avatar">
+            <a href="/archives"><img src="/image/avatar.jpeg"></a>
         </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">handy</p>
-  <div class="site-description" itemprop="description"></div>
+        <div class="nickname">Handy</div>
+        <div class="description"><p>Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit.</strong> <br>Fusce eget urna vitae velit <em>eleifend interdum at ac</em> nisi.</p>
 </div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">2</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
-
+        <div class="links">
+            
+                
+                    <a class="link-item" title="Blog" href="/archives">
+                        
+                        
+                            <i class="iconfont icon-blog"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="ZhiHu" target="_blank" rel="noopener" href="https://www.zhihu.com/people/sirice">
+                        
+                        
+                            <i class="iconfont icon-zhihu"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="Instagram" href="">
+                        
+                        
+                            <i class="iconfont icon-instagram"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="Reddit" href="">
+                        
+                        
+                            <i class="iconfont icon-reddit"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="Github" target="_blank" rel="noopener" href="https://github.com/Siricee">
+                        
+                        
+                            <i class="iconfont icon-github"></i>
+                        
+                    </a>
+                
+            
         </div>
-      </div>
     </div>
-
-    
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/03/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="handy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/04/03/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-04-03 14:23:03" itemprop="dateCreated datePublished" datetime="2025-04-03T14:23:03+08:00">2025-04-03</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
 </div>
 
 
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/03/myblog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="handy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/03/myblog/" class="post-title-link" itemprop="url">myblog</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-04-03 15:06:58" itemprop="dateCreated datePublished" datetime="2021-04-03T15:06:58+08:00">2021-04-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-03 15:09:55" itemprop="dateModified" datetime="2025-04-03T15:09:55+08:00">2025-04-03</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="1-【掌握】Linux基础"><a href="#1-【掌握】Linux基础" class="headerlink" title="1 【掌握】Linux基础"></a>1 【掌握】Linux基础</h1><h2 id="1-1-学习目标"><a href="#1-1-学习目标" class="headerlink" title="1.1 学习目标"></a>1.1 学习目标</h2><p>掌握Linux核心命令，为大模型私有化部署奠定基础</p>
-<h3 id="1-1-1-Linux系统概述"><a href="#1-1-1-Linux系统概述" class="headerlink" title="1.1.1 Linux系统概述"></a>1.1.1 Linux系统概述</h3><ul>
-<li><p>Linux发行时间: 1991年</p>
-</li>
-<li><p>Linux的创始人: 林纳斯·托瓦兹</p>
-</li>
-<li><p>Linux的吉祥物: 企鹅</p>
-</li>
-<li><p>官网地址: <a target="_blank" rel="noopener" href="https://www.kernel.org/">https://www.kernel.org/</a></p>
-<blockquote>
-<p><strong>Linux发行版</strong> &#x3D; Linux内核 + 系统库 + 系统软件</p>
-<p>Linux的内核完全开源免费, 但是Linux的发行版 不一定免费</p>
-</blockquote>
-</li>
-<li><p>常见的Linux发行版有哪些?</p>
-<ul>
-<li><p>RedHat : 世界最大的Linux发行版厂商, 已经被IBM收购</p>
-</li>
-<li><p>Ubuntu: 桌面操作系统做的最好的</p>
-</li>
-<li><p>CentOS: 目前中国市场使用最多的Linux版本,目前已经被RedHat收购,但依然免费</p>
-</li>
-<li><p>Deepin: 深度公司开发的Linux版本.国内做的最好的Linux发行版 <img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1739856296312.png?lastModify=1741507055"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-1-2-Linux的目录结构"><a href="#1-1-2-Linux的目录结构" class="headerlink" title="1.1.2 Linux的目录结构"></a>1.1.2 Linux的目录结构</h3><ul>
-<li><p>Linux和Windows, Mac一样, 都是文件系统, 采用文件 和 文件夹的形式来管理数据.</p>
-</li>
-<li><p>只不过在Linux 操作系统中, 是没有盘符概念的, 任何文件(文件夹)都是从根目录开始进行拆分的</p>
-</li>
-<li><p>且Linux中采用的是目录树结构, Windows中采用的是森系结构, 如下图:</p>
-<p>  <img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1704266396893.png?lastModify=1741507055"></p>
-</li>
-<li><p>Linux中常用的目录结构:</p>
-<ul>
-<li><p>&#x2F;etc : 配置文件存放的目录, 相当于Windows中的设置面板</p>
-</li>
-<li><p>&#x2F;home: 用户的家目录,相当于Windows中的用户目录</p>
-</li>
-<li><p>&#x2F;opt: 应用程序存放的目录,相当于Windows中的 software目录</p>
-</li>
-<li><p>&#x2F;bin: 终端指令集存放的目录</p>
-</li>
-<li><p>&#x2F;sbin: 超级管理员用户使用的指令集,包括用户的创建删除等指令</p>
-</li>
-<li><p>&#x2F;root: 超级管理员的家目录, 每个Linux系统默认有且只有一个超管用户,拥有该操作系统的一切权限,也是最高权限.</p>
-<p>  <img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/666666666.png?lastModify=1741507055"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-1-3-Linux的常用命令"><a href="#1-1-3-Linux的常用命令" class="headerlink" title="1.1.3 Linux的常用命令"></a>1.1.3 Linux的常用命令</h3><p>Linux指令的构成:</p>
-<p>linux指令 &#x3D; 命令(做什么) + 选项(怎么做) + 参数(对谁做)  </p>
-<ul>
-<li>command : 命令名, 相应功能的英文单词或单词的缩写  </li>
-<li>[-options] : 选项, 可用来对命令进行控制, 也可以省略  </li>
-<li>parameter  : 传给命令的参数, 可以是 零个、一个 或者 多个</li>
-</ul>
-<h4 id="1-1-3-1-Linux文件与目录管理"><a href="#1-1-3-1-Linux文件与目录管理" class="headerlink" title="1.1.3.1 Linux文件与目录管理"></a>1.1.3.1 Linux文件与目录管理</h4><ul>
-<li><p>ls命令</p>
-<blockquote>
-<p>ls命令: 展示linux系统中指定位置的目录信息</p>
-<p>-a  查看所有文件,包括隐藏文件<br>-l  展示文件的详细信息,包括权限,归属,文件大小,创建修改时间,文件名称<br>-h  人性化展示文件大小,赋予最恰当的单位</p>
-</blockquote>
-<blockquote>
-<p>ls 指令的三个选项可以随意自由组合,且选项的顺序可以随意调整</p>
-<p>ls -lh  展示文件详细信息列表,并且合理展示单位<br>ls -al  展示所有文件详细信息列表,包括隐藏文件<br>ls -alh  展示所有文件详细信息列表,包括隐藏文件,并且合理展示单位</p>
-</blockquote>
-<blockquote>
-<p>ls 可以获取任意指定路径的文件信息</p>
-<p>ls  参数  路径信息<br>ls &#x2F;  查看根目录的文件<br>ls aaa 查看当前目录下的aaa目录中的文件内容</p>
-<p>ls -l 完全等价于 ll 可以快速查看文件的详细信息</p>
-<p>【拓展：】ll 也可以配合选项-h -a使用</p>
-</blockquote>
-</li>
-<li><p><strong>Linux中的路径:</strong></p>
-<blockquote>
-<p>什么是文件路径?</p>
-<p>路径就是我们从根目录,盘符或者指定位置,查找到目标文件所经历的目录层级.</p>
-<p>现实路径的描述方式:</p>
-<p>1.中国 北京市 昌平区 回龙观东大街 xxx校区 x号楼 x单元….  2.从当前位置触发,向前行驶五公里,左转向前行驶4公里,掉头……</p>
-<p>计算机中路径的描述方式</p>
-<ol>
-<li><p>绝对路径: 从根目录或者盘符出发,直到查找到目标文件所经历的目录层级</p>
-</li>
-<li><p>相对路径: 从当前目录出发,直到查找到目标文件所经历的目录层级</p>
-</li>
-</ol>
-</blockquote>
-</li>
-<li><p>Linux中的路径和Windows中的路径有什么区别?</p>
-<blockquote>
-<p>绝对路径中, Linux 是从根目录出发进行查找, Windows是从盘符出发进行查找</p>
-</blockquote>
-</li>
-<li><p>Linux中路径的书写方式</p>
-<p>  <strong>hello.py</strong>绝对路径: <code>/root/apple/hello.py</code></p>
-<p>  <img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1677662356486.png?lastModify=1741507055"></p>
-<p>  从apple目录出发,到linux.java的相对路径: <code>../../home/java/linux.java</code></p>
-<p>  .&#x2F;  代表当前目录<br>  ..&#x2F; 代表上一级目录</p>
-</li>
-<li><p>cd命令</p>
-<blockquote>
-<p>cd命令,是为了切换工作目录,或者说活动目录的</p>
-<p>例如:ls后不加任何参数,则默认输出当前目录的文件信息, cd命令就切换的是当前目录</p>
-<p>cd 路径信息 可以切换到指定目录中</p>
-<p>cd ..&#x2F; 返回上一级目录</p>
-<p>cd - 返回上一次操作的工作目录</p>
-<p>cd &#x2F; 进入根目录</p>
-<p>cd ~ 返回家目录, 波浪线可以省略</p>
-<p><strong>注意: cd指令中 同样可以使用相对路径,也可以使用绝对路径</strong></p>
-<ul>
-<li><p>pwd命令</p>
-<blockquote>
-<p>pwd命令获取的就是当前所在的工作目录的绝对路径</p>
-<p><strong>注意: pwd获取的是目录路径,不是文件路径</strong> (&#x3D;&#x3D;目录就等于文件夹&#x3D;&#x3D;)</p>
-</blockquote>
-</li>
-<li><p>mkdir命令</p>
-<blockquote>
-<p>mkdir命令是创建空目录的命令,我们可以在指定路径下创建一个空目录</p>
-<p>mkdir 文件路径    在指定路径下创建目录<br>mkdir  .&#x2F;aaa  </p>
-<p>mkdir -p 文件路径   在指定路径下创建一个空目录,同时创建其父目录<br>mkdir -p .&#x2F;111&#x2F;222&#x2F;333</p>
-</blockquote>
-</li>
-</ul>
-</blockquote>
-</li>
-<li><p>touch命令</p>
-<blockquote>
-<p>touch 可以创建一个新的文件,文件的扩展名随意,甚至可以是不存在的扩展名</p>
-<p>touch 可以一次性创建多个文件,但是文件路径必须正确</p>
-<p>touch 1.txt 2.txt 3.txt </p>
-<p>touch创建的文件如果存在不报错,但是没有新文件产生</p>
-</blockquote>
-</li>
-<li><p>rm命令 remove</p>
-<blockquote>
-<p>rm 是删除文件的指令,可以删除文件或文件夹</p>
-<p>-r 递归删除,删除文件夹时使用<br>-f 强制删除,不进行问询</p>
-<p>rm 可以删除任意文件,路径可以是相对路径,也可以是绝对路径</p>
-<h1 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h1><p>rm &#x2F;root&#x2F;1.txt  </p>
-<h1 id="删除文件夹"><a href="#删除文件夹" class="headerlink" title="删除文件夹"></a>删除文件夹</h1><p>rm -r &#x2F;root&#x2F;aaa  </p>
-<h1 id="删除文件夹并不进行提示"><a href="#删除文件夹并不进行提示" class="headerlink" title="删除文件夹并不进行提示"></a>删除文件夹并不进行提示</h1><p>rm -rf &#x2F;root&#x2F;aaa</p>
-<p>rm可以一次性删除多个文件</p>
-<h1 id="rm后跟随多个路径"><a href="#rm后跟随多个路径" class="headerlink" title="rm后跟随多个路径"></a>rm后跟随多个路径</h1><p>rm 1.txt 2.txt 3.txt  </p>
-<h1 id="rm后跟随路径通配符"><a href="#rm后跟随路径通配符" class="headerlink" title="rm后跟随路径通配符"></a>rm后跟随路径通配符</h1><p>rm .&#x2F;aaa&#x2F;*</p>
-<p>在正常开发中如果使用的是root权限,不建议使用-f 如果必须使用,需要极其慎重,因为这种删除方式无法找回</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="1-1-3-2-Linux查看文件内容"><a href="#1-1-3-2-Linux查看文件内容" class="headerlink" title="1.1.3.2 Linux查看文件内容"></a>1.1.3.2 Linux查看文件内容</h4><ul>
-<li><p>cat指令</p>
-<blockquote>
-<p>用于查看linux中的<strong>小型</strong>文本文件</p>
-<p>因为他会一次性将所有的文件内容加载到终端中,终端的数据展示数量有限,大文件显示不全,且过于消耗内存</p>
-<p>cat 文件名称</p>
-</blockquote>
-</li>
-<li><p>more指令</p>
-<blockquote>
-<p>用于查看linux中的<strong>中型</strong>文本文件</p>
-<p>使用more进行文件的查看可以按页显示,手动翻页或回滚,更加灵活,但同样消耗内存</p>
-<p>more 文件名称  </p>
-<ul>
-<li>enter 向下一行  </li>
-<li>space 向下一页  </li>
-<li>b 向上一页  </li>
-<li>q 退出查看</li>
-</ul>
-</blockquote>
-<h4 id="Linux文件打包和压缩文件"><a href="#Linux文件打包和压缩文件" class="headerlink" title="Linux文件打包和压缩文件"></a>Linux文件打包和压缩文件</h4><ul>
-<li>tar命令<blockquote>
-<blockquote>
-</blockquote>
-</blockquote>
-<blockquote>
-<p><strong>tar命令是进行打包,解包, 压缩和解压的命令</strong></p>
-<p>打包: 将多个文件归档为一个文件,文件大小不会减小.</p>
-<p>解包(拆包):将一个包文件拆分为多个实体文件.</p>
-<p>压缩:将文件按照一定的算法减小体积,但是文件的内容和信息不发生改变</p>
-<p>解压:将一个压缩文件还原到正常状态.</p>
-<p>参数:</p>
-<ul>
-<li><p>c : 打包选项</p>
-</li>
-<li><p>x : 解包选项</p>
-</li>
-<li><p>z : 压缩或者解压选项</p>
-</li>
-<li><p>v : 展示过程信息</p>
-</li>
-<li><p>f : 指定文件名称</p>
-</li>
-</ul>
-<p>注意: c 和x 参数不能同时出现在终端命令中</p>
-<p>打包</p>
-<h1 id="tar-cvf-包的名称-要打包的文件列表"><a href="#tar-cvf-包的名称-要打包的文件列表" class="headerlink" title="tar -cvf 包的名称  要打包的文件列表"></a>tar -cvf 包的名称  要打包的文件列表</h1><p>tar -cvf 1_3.tar 1.txt 2.txt 3.txt  </p>
-<h1 id="将1-txt-2-txt-3-txt-打包到-aaa目录下"><a href="#将1-txt-2-txt-3-txt-打包到-aaa目录下" class="headerlink" title="将1.txt 2.txt 3.txt 打包到 aaa目录下"></a>将1.txt 2.txt 3.txt 打包到 aaa目录下</h1><p>tar -cvf aaa&#x2F;1_3.tar 1.txt 2.txt 3.txt</p>
-<p>解包</p>
-<h1 id="将原有的-txt文件全部删除"><a href="#将原有的-txt文件全部删除" class="headerlink" title="将原有的.txt文件全部删除"></a>将原有的.txt文件全部删除</h1><p>rm -f *.txt  </p>
-<h1 id="将1-3-tar-解压到当前压缩包所在位置"><a href="#将1-3-tar-解压到当前压缩包所在位置" class="headerlink" title="将1_3.tar 解压到当前压缩包所在位置"></a>将1_3.tar 解压到当前压缩包所在位置</h1><p>tar -xvf 1_3.tar  </p>
-<h1 id="将个文件解压bbb目录下"><a href="#将个文件解压bbb目录下" class="headerlink" title="将个文件解压bbb目录下"></a>将个文件解压bbb目录下</h1><h1 id="此时需要使用选项C-大写-指定解包路径"><a href="#此时需要使用选项C-大写-指定解包路径" class="headerlink" title="此时需要使用选项C(大写)指定解包路径"></a>此时需要使用选项C(大写)指定解包路径</h1><p>tar -xvf 1_3.tar -C bbb</p>
-<p>压缩</p>
-<p>tar -zcvf 1_3.tar 1.txt 2.txt 3.txt</p>
-<p>解压缩</p>
-<p>tar -zxvf 1_3.tar -C bbb</p>
-<p>在开发中,我们一般使用的最多的是解压.解压指令可以记忆为长兄为父(zxvf)</p>
-<p>注意:</p>
-<ol>
-<li><p>压缩时,如果源文件太小,可能体积会增大 例如 被压缩文件只有20B 可能压缩完成后大小是50B</p>
-</li>
-<li><p>压缩和解压时一般使用.tar.gz结尾,方便程序员交流</p>
-</li>
-<li><p>使用上述指令压缩后,文件为gzip压缩格式.</p>
-</li>
-</ol>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="1-1-3-3-Linux文件基本属性"><a href="#1-1-3-3-Linux文件基本属性" class="headerlink" title="1.1.3.3 Linux文件基本属性"></a>1.1.3.3 Linux文件基本属性</h4><ul>
-<li><p>chmod命令</p>
-<blockquote>
-<p>chmod主要是进行文件权限管理的,可以给文件增加修改删除权限</p>
-<p>语法 chmod [-R] 权限 文件或者文件夹</p>
-</blockquote>
-<blockquote>
-<p>选项：-R，对文件夹内的全部内容应用同样的操作</p>
-</blockquote>
-</li>
-<li><p>数值型权限管理</p>
-<blockquote>
-<p>权限可以用3位数字来代表，第一位数字表示用户权限（u），第二位表示用户组权限（g），第三位表示其它用户权限（）。 数字的细节如下：r记为4，w记为2，x记为1，可以有：</p>
-<p>421</p>
-<h1 id="用户拥有读写执行权限-rwx-7-用户组拥有读写权限-rw-6-其他用户拥有读的权限-r-4"><a href="#用户拥有读写执行权限-rwx-7-用户组拥有读写权限-rw-6-其他用户拥有读的权限-r-4" class="headerlink" title="用户拥有读写执行权限(rwx 7), 用户组拥有读写权限(rw 6), 其他用户拥有读的权限(r 4)"></a>用户拥有读写执行权限(rwx 7), 用户组拥有读写权限(rw 6), 其他用户拥有读的权限(r 4)</h1><p>chmod 764 1.txt  </p>
-<h1 id="如果需要所有用户具有可读可写可执行权限"><a href="#如果需要所有用户具有可读可写可执行权限" class="headerlink" title="如果需要所有用户具有可读可写可执行权限"></a>如果需要所有用户具有可读可写可执行权限</h1><p>chmod 777 1.t.xt  </p>
-<h1 id="注意-在开发中尽量不要出现777的权限会让别人觉得你很low-侮辱你的职业"><a href="#注意-在开发中尽量不要出现777的权限会让别人觉得你很low-侮辱你的职业" class="headerlink" title="注意: 在开发中尽量不要出现777的权限会让别人觉得你很low 侮辱你的职业"></a>注意: 在开发中尽量不要出现777的权限会让别人觉得你很low 侮辱你的职业</h1></blockquote>
-<p>  <img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1739865684067.png?lastModify=1741507055"></p>
-</li>
-<li><p>字母型权限管理</p>
-<blockquote>
-<p>r : 读权限</p>
-<p>w : 写权限</p>
-<p>x : 执行权限</p>
-<p>u : 拥有者</p>
-<p>g : 用户组</p>
-<p>o : 其他用户</p>
-<p>a : 所有用户</p>
-<h1 id="格式-chmod-权限"><a href="#格式-chmod-权限" class="headerlink" title="格式: chmod - + 权限"></a>格式: chmod - + 权限</h1><h1 id="给自己减少可执行权限-给用户组增加写入权限"><a href="#给自己减少可执行权限-给用户组增加写入权限" class="headerlink" title="给自己减少可执行权限,给用户组增加写入权限"></a>给自己减少可执行权限,给用户组增加写入权限</h1><p>chmod u-x,g+w abc  </p>
-<h1 id="给所有用户减少读的权限"><a href="#给所有用户减少读的权限" class="headerlink" title="给所有用户减少读的权限"></a>给所有用户减少读的权限</h1><p>chmod a-r abc  </p>
-<h1 id="格式-chmod-权限-1"><a href="#格式-chmod-权限-1" class="headerlink" title="格式: chmod &#x3D; 权限"></a>格式: chmod &#x3D; 权限</h1><h1 id="给自己设置属主权限为只读-此时原有权限全部消失-只保留新赋予的权限内容"><a href="#给自己设置属主权限为只读-此时原有权限全部消失-只保留新赋予的权限内容" class="headerlink" title="给自己设置属主权限为只读,此时原有权限全部消失,只保留新赋予的权限内容"></a>给自己设置属主权限为只读,此时原有权限全部消失,只保留新赋予的权限内容</h1><p>chmod u&#x3D;r abc   </p>
-<h1 id="给所有用户最高权限"><a href="#给所有用户最高权限" class="headerlink" title="给所有用户最高权限"></a>给所有用户最高权限</h1><p>chmod a&#x3D;rwx abc  </p>
-<h1 id="格式-混用"><a href="#格式-混用" class="headerlink" title="格式: 混用"></a>格式: 混用</h1><h1 id="给用户读写执行权限-给用户组读写权限-给其他用户只读权限"><a href="#给用户读写执行权限-给用户组读写权限-给其他用户只读权限" class="headerlink" title="给用户读写执行权限, 给用户组读写权限, 给其他用户只读权限"></a>给用户读写执行权限, 给用户组读写权限, 给其他用户只读权限</h1><p>chmod u&#x3D;rwx,g-x,o-wx abc  </p>
-<h1 id="如果我们需要修改当前目录及其目录中子文件的权限-需要使用递归方式完成操作-条件-R选项即可"><a href="#如果我们需要修改当前目录及其目录中子文件的权限-需要使用递归方式完成操作-条件-R选项即可" class="headerlink" title="如果我们需要修改当前目录及其目录中子文件的权限,需要使用递归方式完成操作  条件-R选项即可"></a>如果我们需要修改当前目录及其目录中子文件的权限,需要使用递归方式完成操作  条件-R选项即可</h1><p>chmod -R u&#x3D;rwx,g&#x3D;rw,o&#x3D;r aaa</p>
-</blockquote>
-</li>
-</ul>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1739865856802.png?lastModify=1741507055"></p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1739865999965.png?lastModify=1741507055"></p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1739866038917.png?lastModify=1741507055"></p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1739866074736.png?lastModify=1741507055"></p>
-<h4 id="1-1-3-4-系统管理命令"><a href="#1-1-3-4-系统管理命令" class="headerlink" title="1.1.3.4 系统管理命令"></a>1.1.3.4 系统管理命令</h4><ul>
-<li><p>ps命令</p>
-<blockquote>
-<p>查看linux系统中的进程信息</p>
-<p>ps  查看当前活跃进程<br>ps -ef 查看当前所有进程</p>
-<p>在查看进程时,pid这一列中存储的是进程编号,也就是这个进程的唯一标识. <img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1677725479917.png?lastModify=1741507055"></p>
-</blockquote>
-</li>
-<li><p>kill命令</p>
-<blockquote>
-<p>如果我们想结束linux中的软件或服务也可以通过操作进程来解决</p>
-<p>kill -9 进程编号</p>
-<p>注意:</p>
-<p>kill -9 可以快速杀死进程,但是不安全,因为我们的服务再运行过程中,可能会需要保存或者将某些任务执行完再关闭,所以轻易不用,一般都是用于杀死闲置进程,或者不响应的进程.</p>
-</blockquote>
-</li>
-<li><p>ifconfig命令</p>
-<blockquote>
-<p>ifconfig主要用于查看服务器的网络信息, 当前阶段最重要的信息就是ip地址</p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1677726098779.png?lastModify=1741507055"></p>
-<p><strong>扩展:</strong></p>
-<p>在windows中如果需要查看网卡信息,需要使用<code>ipconfig</code>进行查看</p>
-</blockquote>
-</li>
-<li><p>free命令</p>
-<blockquote>
-<p>可以使用free查看内存使用情况</p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1677726358857.png?lastModify=1741507055"></p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1677726407717.png?lastModify=1741507055"></p>
-</blockquote>
-</li>
-<li><p>df命令</p>
-<blockquote>
-<p>可以使用df命令查看磁盘的使用情况</p>
-<p><img src="file:///Users/handy/Resilio%20Sync/itcast%20HM/01_%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%96%99/day01_%E7%A7%81%E6%9C%89%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2_%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%90%AD%E5%BB%BA/01-%E8%AF%BE%E4%BB%B6/assets/1677726495835.png?lastModify=1741507055"></p>
-</blockquote>
-</li>
-<li><p>clear命令</p>
-<blockquote>
-<p>clear命令,可以清除终端窗口的信息,让光标移动到终端的最上方</p>
-<p>快速清屏也可以使用快捷键 ctrl + L</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="1-1-4-小结"><a href="#1-1-4-小结" class="headerlink" title="1.1.4 小结"></a>1.1.4 小结</h3><p>Q1：Linux文件与目录管理命令有哪些？</p>
-<ul>
-<li>ls、pwd、mkdir、touch、cd、rm</li>
-</ul>
-<p>Q2：如何查看Linux中文件内容？区别是什么？</p>
-<ul>
-<li><p>cat：主要用于显示整个文件内容，适合查看小文件</p>
-</li>
-<li><p>more：用于分页显示文件内容，适合查看大文件。</p>
-</li>
-</ul>
-<p>Q3：如何查看Linux系统进程命令？</p>
-<ul>
-<li>ps：是 Linux 中用于查看当前系统进程状态的工具。它可以显示正在运行的进程信息，如进程 ID（PID）、CPU 和内存使用情况、运行状态等。</li>
-</ul>
-<h3 id="1-1-5-练习"><a href="#1-1-5-练习" class="headerlink" title="1.1.5 练习"></a>1.1.5 练习</h3><h4 id="1-1-5-1-cd命令"><a href="#1-1-5-1-cd命令" class="headerlink" title="1.1.5.1 cd命令"></a>1.1.5.1 cd命令</h4><p>1：切换到你的主目录。<br>​<br>2：切换到根目录 (&#x2F;)。<br>​<br>3：切换到上一级目录。<br>​<br>4：切换到名为 Documents 的目录，假设它在你的主目录下。<br>​<br>5：如果你在任意目录下，直接切换到 &#x2F;var&#x2F;log 目录。<br>​    </p>
-<h4 id="1-1-5-2-mkdir命令"><a href="#1-1-5-2-mkdir命令" class="headerlink" title="1.1.5.2 mkdir命令"></a>1.1.5.2 mkdir命令</h4><p>1：基础创建：在你的主目录下创建一个名为 NewFolder 的新目录。  </p>
-<p>2：创建多级目录：在同一命令中创建多级目录结构，例如 ~&#x2F;NewFolder&#x2F;SubFolder1&#x2F;SubFolder2。  </p>
-<p>3：创建多个同级目录：在你的主目录下同时创建 FolderA, FolderB, 和 FolderC。  </p>
-<p>4：在特定目录下创建：假设你当前不在主目录下，但在 &#x2F;var&#x2F;www 下创建一个名为 MyProject 的目录。  </p>
-<h4 id="1-1-5-3-touch命令"><a href="#1-1-5-3-touch命令" class="headerlink" title="1.1.5.3 touch命令"></a>1.1.5.3 touch命令</h4><p>1：基本使用：在当前目录下创建一个名为 newfile.txt 的新文件。  </p>
-<p>2：创建多个文件：在同一命令中创建多个文件，如 file1.txt, file2.txt, 和 file3.txt。  </p>
-<p>3：更新文件时间戳：假设你有一个文件 oldfile.txt，使用 touch 更新其访问和修改时间戳。  </p>
-<p>4：使用绝对路径创建文件：在 &#x2F;var&#x2F;log 目录下创建一个名为 log.txt 的文件。  </p>
-<h4 id="1-1-5-4-rm命令"><a href="#1-1-5-4-rm命令" class="headerlink" title="1.1.5.4 rm命令"></a>1.1.5.4 rm命令</h4><p>1：基本删除：删除当前目录下的一个名为 example.txt 的文件。  </p>
-<p>2：删除多个文件：删除当前目录下的多个文件，例如 file1.txt, file2.txt, 和 file3.txt。  </p>
-<p>3：递归删除目录：删除一个名为 mydir 的目录及其内容。  </p>
-<p>4：强制删除：使用 -f 选项强制删除一个名为 lockedfile.txt 的文件。  </p>
-<h1 id="2-【实操】项目环境搭建"><a href="#2-【实操】项目环境搭建" class="headerlink" title="2 【实操】项目环境搭建"></a>2 【实操】项目环境搭建</h1><h3 id="2-1-1-学习目标"><a href="#2-1-1-学习目标" class="headerlink" title="2.1.1 学习目标"></a>2.1.1 学习目标</h3><p>掌握聊天机器人相关虚拟机配置，完成项目环境搭建</p>
-<h3 id="2-1-2-导入虚拟机"><a href="#2-1-2-导入虚拟机" class="headerlink" title="2.1.2 导入虚拟机"></a>2.1.2 导入虚拟机</h3><p>为便于后续的知识学习，本项目的开发环境部署到了CentOS7系统，因此我们先安装一下开发环境。</p>
-<p>为了大家统一开发环境，我们在资料中提供了一套系统镜像，大家使用VMware软件来挂载即可快速启动。</p>
-<h3 id="2-1-3-挂载虚拟机"><a href="#2-1-3-挂载虚拟机" class="headerlink" title="2.1.3 挂载虚拟机"></a>2.1.3 挂载虚拟机</h3><p>解压《ai_node1.zip》文件，解压后，进入解压的虚拟机镜像文件夹，双击<strong>ai_node1.vmx</strong>即可挂载到你的虚拟机中（需提前安装虚拟机）。</p>
-
-      
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© handy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 
-    <span itemprop="copyrightYear">2025</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">handy</span>
-  </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
+</footer>
 
     </div>
-  </footer>
-
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="Back to top">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
 </body>
+
 </html>
