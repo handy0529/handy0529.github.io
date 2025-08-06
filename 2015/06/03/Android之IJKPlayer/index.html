@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android之IJKPlayer | Handy</title><meta name="author" content="Handy"><meta name="copyright" content="Handy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Android 集成 ijkplayer 播放器 + 封装实践（控制栏 &#x2F; 倍速 &#x2F; 全屏）最近项目中用到了在线视频播放功能，在调研了 ExoPlayer、VLC、ijkplayer 后，最终选择了 Bilibili 开源的 ijkplayer —— 功能强大，FFmpeg 底层支持全面，关键是还支持直播流、软&#x2F;硬解切换、流式播放等特性。 本文分享我在项目中：  如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android之IJKPlayer">
+<meta property="og:url" content="http://handy.bj.cn/2015/06/03/Android%E4%B9%8BIJKPlayer/index.html">
+<meta property="og:site_name" content="Handy">
+<meta property="og:description" content="Android 集成 ijkplayer 播放器 + 封装实践（控制栏 &#x2F; 倍速 &#x2F; 全屏）最近项目中用到了在线视频播放功能，在调研了 ExoPlayer、VLC、ijkplayer 后，最终选择了 Bilibili 开源的 ijkplayer —— 功能强大，FFmpeg 底层支持全面，关键是还支持直播流、软&#x2F;硬解切换、流式播放等特性。 本文分享我在项目中：  如何">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2015/09/21/00/54/plant-949111_1280.jpg">
+<meta property="article:published_time" content="2015-06-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-06-02T16:00:00.000Z">
+<meta property="article:author" content="Handy">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2015/09/21/00/54/plant-949111_1280.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Android之IJKPlayer",
+  "url": "http://handy.bj.cn/2015/06/03/Android%E4%B9%8BIJKPlayer/",
+  "image": "https://cdn.pixabay.com/photo/2015/09/21/00/54/plant-949111_1280.jpg",
+  "datePublished": "2015-06-02T16:00:00.000Z",
+  "dateModified": "2023-06-02T16:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Handy",
+      "url": "http://handy.bj.cn/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://handy.bj.cn/2015/06/03/Android%E4%B9%8BIJKPlayer/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android之IJKPlayer',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #000000;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/pic_avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post type-Android" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.pixabay.com/photo/2015/09/21/00/54/plant-949111_1280.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Handy</span></a><a class="nav-page-title" href="/"><span class="site-name">Android之IJKPlayer</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Android之IJKPlayer</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2015-06-02T16:00:00.000Z" title="发表于 2015-06-03 00:00:00">2015-06-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-02T16:00:00.000Z" title="更新于 2023-06-03 00:00:00">2023-06-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Android-集成-ijkplayer-播放器-封装实践（控制栏-倍速-全屏）"><a href="#Android-集成-ijkplayer-播放器-封装实践（控制栏-倍速-全屏）" class="headerlink" title="Android 集成 ijkplayer 播放器 + 封装实践（控制栏 &#x2F; 倍速 &#x2F; 全屏）"></a>Android 集成 ijkplayer 播放器 + 封装实践（控制栏 &#x2F; 倍速 &#x2F; 全屏）</h1><p>最近项目中用到了在线视频播放功能，在调研了 ExoPlayer、VLC、ijkplayer 后，最终选择了 Bilibili 开源的 <a target="_blank" rel="noopener" href="https://github.com/bilibili/ijkplayer"><strong>ijkplayer</strong></a> —— 功能强大，FFmpeg 底层支持全面，关键是还支持<strong>直播流、软&#x2F;硬解切换、流式播放</strong>等特性。</p>
+<p>本文分享我在项目中：</p>
+<ul>
+<li>如何 <strong>快速引入 ijkplayer</strong>；</li>
+<li>如何<strong>自定义播放器组件</strong>（控制栏、倍速、全屏）；</li>
+<li>踩坑 &amp; 性能优化经验。</li>
+</ul>
+<hr>
+<h2 id="一、ijkplayer-快速集成"><a href="#一、ijkplayer-快速集成" class="headerlink" title="一、ijkplayer 快速集成"></a>一、ijkplayer 快速集成</h2><h3 id="1-添加依赖"><a href="#1-添加依赖" class="headerlink" title="1. 添加依赖"></a>1. 添加依赖</h3><p>项目根目录 <code>settings.gradle</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">groovy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">dependencyResolutionManagement &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        mavenCentral()</span><br><span class="line">        maven &#123; url &quot;https://jitpack.io&quot; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>模块 <code>app/build.gradle</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">groovy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation &#x27;tv.danmaku.ijk.media:ijkplayer-java:0.8.8&#x27;</span><br><span class="line">    implementation &#x27;tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、基础播放功能实现"><a href="#二、基础播放功能实现" class="headerlink" title="二、基础播放功能实现"></a>二、基础播放功能实现</h2><h3 id="1-初始化（建议在-Application）"><a href="#1-初始化（建议在-Application）" class="headerlink" title="1. 初始化（建议在 Application）"></a>1. 初始化（建议在 Application）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">public class MyApp extends Application &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">        IjkMediaPlayer.loadLibrariesOnce(null);</span><br><span class="line">        IjkMediaPlayer.native_profileBegin(&quot;libijkplayer.so&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-播放器布局"><a href="#2-播放器布局" class="headerlink" title="2. 播放器布局"></a>2. 播放器布局</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">xml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">&lt;tv.danmaku.ijk.media.widget.IjkVideoView</span><br><span class="line">    android:id=&quot;@+id/video_view&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-开始播放"><a href="#3-开始播放" class="headerlink" title="3. 开始播放"></a>3. 开始播放</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">IjkVideoView videoView = findViewById(R.id.video_view);</span><br><span class="line">videoView.setVideoPath(&quot;https://your.domain.com/video.mp4&quot;);</span><br><span class="line">videoView.start();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、自定义播放器封装（控制栏-倍速-全屏）"><a href="#三、自定义播放器封装（控制栏-倍速-全屏）" class="headerlink" title="三、自定义播放器封装（控制栏 + 倍速 + 全屏）"></a>三、自定义播放器封装（控制栏 + 倍速 + 全屏）</h2><p>下面是我封装的简易播放器组件结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">复制编辑</span><br><span class="line">PlayerContainer（FrameLayout）</span><br><span class="line">│</span><br><span class="line">├── IjkVideoView （播放器）</span><br><span class="line">├── PlayerControllerView（控制栏）</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-控制栏布局（player-controller-view-xml）"><a href="#1-控制栏布局（player-controller-view-xml）" class="headerlink" title="1. 控制栏布局（player_controller_view.xml）"></a>1. 控制栏布局（player_controller_view.xml）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">xml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">&lt;LinearLayout</span><br><span class="line">    android:id=&quot;@+id/controller_root&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_gravity=&quot;bottom&quot;</span><br><span class="line">    android:orientation=&quot;horizontal&quot;</span><br><span class="line">    android:background=&quot;#99000000&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageButton</span><br><span class="line">        android:id=&quot;@+id/btn_play_pause&quot;</span><br><span class="line">        android:src=&quot;@drawable/ic_play&quot;</span><br><span class="line">        ... /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;SeekBar</span><br><span class="line">        android:id=&quot;@+id/seek_bar&quot;</span><br><span class="line">        ... /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=&quot;@+id/speed_text&quot;</span><br><span class="line">        android:text=&quot;1.0x&quot;</span><br><span class="line">        ... /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageButton</span><br><span class="line">        android:id=&quot;@+id/btn_fullscreen&quot;</span><br><span class="line">        android:src=&quot;@drawable/ic_fullscreen&quot;</span><br><span class="line">        ... /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-控制逻辑（PlayerControllerView-java）"><a href="#2-控制逻辑（PlayerControllerView-java）" class="headerlink" title="2. 控制逻辑（PlayerControllerView.java）"></a>2. 控制逻辑（PlayerControllerView.java）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">btnPlayPause.setOnClickListener(v -&gt; &#123;</span><br><span class="line">    if (videoView.isPlaying()) &#123;</span><br><span class="line">        videoView.pause();</span><br><span class="line">        btnPlayPause.setImageResource(R.drawable.ic_play);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        videoView.start();</span><br><span class="line">        btnPlayPause.setImageResource(R.drawable.ic_pause);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">speedText.setOnClickListener(v -&gt; &#123;</span><br><span class="line">    currentSpeed = (currentSpeed &gt;= 2.0f) ? 1.0f : currentSpeed + 0.5f;</span><br><span class="line">    speedText.setText(currentSpeed + &quot;x&quot;);</span><br><span class="line">    if (videoView.getMediaPlayer() instanceof IjkMediaPlayer) &#123;</span><br><span class="line">        ((IjkMediaPlayer) videoView.getMediaPlayer()).setSpeed(currentSpeed);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">btnFullscreen.setOnClickListener(v -&gt; &#123;</span><br><span class="line">    // 可切换横屏或使用 Dialog 全屏方案</span><br><span class="line">    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、播放参数优化建议"><a href="#四、播放参数优化建议" class="headerlink" title="四、播放参数优化建议"></a>四、播放参数优化建议</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">videoView.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, &quot;mediacodec&quot;, 1); // 开启硬解</span><br><span class="line">videoView.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, &quot;http-detect-range-support&quot;, 0);</span><br><span class="line">videoView.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, &quot;framedrop&quot;, 1);</span><br><span class="line">videoView.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, &quot;analyzeduration&quot;, 100);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔐-五、混淆配置（ProGuard）"><a href="#🔐-五、混淆配置（ProGuard）" class="headerlink" title="🔐 五、混淆配置（ProGuard）"></a>🔐 五、混淆配置（ProGuard）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pro</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">-keep class tv.danmaku.ijk.media.** &#123; *; &#125;</span><br><span class="line">-dontwarn tv.danmaku.ijk.media.**</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、常见问题排查"><a href="#六、常见问题排查" class="headerlink" title="六、常见问题排查"></a>六、常见问题排查</h2><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>解决建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>播放黑屏</td>
+<td>检查是否支持硬解&#x2F;软解，或设置了合适的 <code>start-on-prepared</code></td>
+</tr>
+<tr>
+<td>播放失败</td>
+<td>视频链接是否支持 HTTP Range；可能需要自定义 header</td>
+</tr>
+<tr>
+<td>倍速无效</td>
+<td>必须使用 <code>IjkMediaPlayer</code> 实例并确保 FFmpeg 支持时间拉伸</td>
+</tr>
+<tr>
+<td>播放卡顿</td>
+<td>开启硬解、丢帧、降低分辨率尝试优化</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、项目结构推荐封装方式"><a href="#七、项目结构推荐封装方式" class="headerlink" title="七、项目结构推荐封装方式"></a>七、项目结构推荐封装方式</h2><p>你可以将播放器封装为组件使用，例如：</p>
+<ul>
+<li><code>IjkPlayerView</code>: 封装了 IjkVideoView + Controller 控件；</li>
+<li><code>IjkPlayerManager</code>: 封装播放器生命周期（播放、暂停、销毁）；</li>
+<li><code>IjkPlayerUtils</code>: 提供 URL 校验、加载监听、错误处理等辅助方法。</li>
+</ul>
+<hr>
+<h2 id="八、参考资料"><a href="#八、参考资料" class="headerlink" title="八、参考资料"></a>八、参考资料</h2><ul>
+<li>GitHub 仓库：<a target="_blank" rel="noopener" href="https://github.com/bilibili/ijkplayer">https://github.com/bilibili/ijkplayer</a></li>
+<li>ijkplayer 使用文档：<a target="_blank" rel="noopener" href="https://github.com/bilibili/ijkplayer/blob/master/README.md">https://github.com/bilibili/ijkplayer/blob/master/README.md</a></li>
+<li>控制栏封装灵感参考：ExoPlayer UI 控制组件</li>
+</ul>
+<hr>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><ul>
+<li><strong>ijkplayer</strong> 适合复杂流媒体播放场景，尤其是直播&#x2F;流式点播；</li>
+<li>可灵活切换软&#x2F;硬解，播放控制细粒度高；</li>
+<li>封装控制栏不难，可灵活扩展倍速、全屏、进度、手势等功能；</li>
+<li>如果只做本地&#x2F;MP4 播放，<strong>ExoPlayer</strong> 也是不错的轻量级选择。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://handy.bj.cn">Handy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://handy.bj.cn/2015/06/03/Android%E4%B9%8BIJKPlayer/">http://handy.bj.cn/2015/06/03/Android%E4%B9%8BIJKPlayer/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://handy.bj.cn" target="_blank">Handy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.pixabay.com/photo/2015/09/21/00/54/plant-949111_1280.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2018/02/03/Vim/" title="vim常用命令"><img class="cover" src="https://cdn.pixabay.com/photo/2012/04/11/11/39/text-editor-27620_1280.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">vim常用命令</div></div><div class="info-2"><div class="info-item-1">vim教程 基本操作 i：进入插入模式 Esc：退出插入模式，返回正常模式 :w：保存文件 :q：退出 Vim :wq：保存并退出 Vim :q!：不保存并强制退出 Vim  移动光标 h：向左移动一个字符 j：向下移动一行 k：向上移动一行 l：向右移动一个字符 0：移动到行首 $：移动到行尾 G：移动到文件末尾 gg：移动到文件开头  删除和复制 x：删除光标下的字符 dd：删除当前行 yy：复制当前行 p：粘贴剪贴板中的内容  搜索和替换 /：向前搜索 ?：向后搜索 n：重复上一次搜索 N：反向重复上一次搜索 :s/old/new/g：替换当前行中的 old 为 new :%s/old/new/g：替换文件中所有的 old 为 new  vi&#x2F;vim 的使用基本上 vi&#x2F;vim 共分为三种模式，命令模式（Command Mode）、输入模式（Insert Mode）和命令行模式（Command-Line Mode）。 命令模式用户刚刚启动 vi&#x2F;vim，便进入了命令模式。 此状态下敲击键盘动作会被 Vim 识别为命令，而非输入字符，比如我们此时...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/pic_avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Handy</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/handy0529"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/handy0529" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:handy0529@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-%E9%9B%86%E6%88%90-ijkplayer-%E6%92%AD%E6%94%BE%E5%99%A8-%E5%B0%81%E8%A3%85%E5%AE%9E%E8%B7%B5%EF%BC%88%E6%8E%A7%E5%88%B6%E6%A0%8F-%E5%80%8D%E9%80%9F-%E5%85%A8%E5%B1%8F%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Android 集成 ijkplayer 播放器 + 封装实践（控制栏 &#x2F; 倍速 &#x2F; 全屏）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81ijkplayer-%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90"><span class="toc-number">1.1.</span> <span class="toc-text">一、ijkplayer 快速集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 添加依赖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9F%BA%E7%A1%80%E6%92%AD%E6%94%BE%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">二、基础播放功能实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E5%BB%BA%E8%AE%AE%E5%9C%A8-Application%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 初始化（建议在 Application）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%92%AD%E6%94%BE%E5%99%A8%E5%B8%83%E5%B1%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 播放器布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BC%80%E5%A7%8B%E6%92%AD%E6%94%BE"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 开始播放</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E6%92%AD%E6%94%BE%E5%99%A8%E5%B0%81%E8%A3%85%EF%BC%88%E6%8E%A7%E5%88%B6%E6%A0%8F-%E5%80%8D%E9%80%9F-%E5%85%A8%E5%B1%8F%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、自定义播放器封装（控制栏 + 倍速 + 全屏）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8E%A7%E5%88%B6%E6%A0%8F%E5%B8%83%E5%B1%80%EF%BC%88player-controller-view-xml%EF%BC%89"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 控制栏布局（player_controller_view.xml）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91%EF%BC%88PlayerControllerView-java%EF%BC%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 控制逻辑（PlayerControllerView.java）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%92%AD%E6%94%BE%E5%8F%82%E6%95%B0%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.4.</span> <span class="toc-text">四、播放参数优化建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%90-%E4%BA%94%E3%80%81%E6%B7%B7%E6%B7%86%E9%85%8D%E7%BD%AE%EF%BC%88ProGuard%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">🔐 五、混淆配置（ProGuard）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5"><span class="toc-number">1.6.</span> <span class="toc-text">六、常见问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E6%8E%A8%E8%8D%90%E5%B0%81%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="toc-number">1.7.</span> <span class="toc-text">七、项目结构推荐封装方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.8.</span> <span class="toc-text">八、参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="toc-number">1.9.</span> <span class="toc-text">总结一下</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/29/BiLSTM-CRF%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%90%86%E8%A7%A3%E5%BA%8F%E5%88%97%E6%A0%87%E6%B3%A8%E7%9A%84%E9%BB%84%E9%87%91%E6%90%AD%E6%A1%A3/" title="BiLSTM-CRF：深入浅出理解序列标注的黄金搭档"><img src="https://img.freepik.com/free-photo/robot-hand-finger-ai-background-technology-graphics_53876-129793.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BiLSTM-CRF：深入浅出理解序列标注的黄金搭档"/></a><div class="content"><a class="title" href="/2023/06/29/BiLSTM-CRF%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%90%86%E8%A7%A3%E5%BA%8F%E5%88%97%E6%A0%87%E6%B3%A8%E7%9A%84%E9%BB%84%E9%87%91%E6%90%AD%E6%A1%A3/" title="BiLSTM-CRF：深入浅出理解序列标注的黄金搭档">BiLSTM-CRF：深入浅出理解序列标注的黄金搭档</a><time datetime="2023-06-29T13:23:20.000Z" title="发表于 2023-06-29 21:23:20">2023-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="机器学习"><img src="https://cdn.pixabay.com/photo/2019/04/15/12/09/machine-learning-4129175_1280.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="机器学习"/></a><div class="content"><a class="title" href="/2022/03/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="机器学习">机器学习</a><time datetime="2022-03-02T16:00:00.000Z" title="发表于 2022-03-03 00:00:00">2022-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2018/02/03/Vim/" title="vim常用命令"><img src="https://cdn.pixabay.com/photo/2012/04/11/11/39/text-editor-27620_1280.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vim常用命令"/></a><div class="content"><a class="title" href="/2018/02/03/Vim/" title="vim常用命令">vim常用命令</a><time datetime="2018-02-03T13:59:50.000Z" title="发表于 2018-02-03 21:59:50">2018-02-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2015/06/03/Android%E4%B9%8BIJKPlayer/" title="Android之IJKPlayer"><img src="https://cdn.pixabay.com/photo/2015/09/21/00/54/plant-949111_1280.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android之IJKPlayer"/></a><div class="content"><a class="title" href="/2015/06/03/Android%E4%B9%8BIJKPlayer/" title="Android之IJKPlayer">Android之IJKPlayer</a><time datetime="2015-06-02T16:00:00.000Z" title="发表于 2015-06-03 00:00:00">2015-06-03</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2015 - 2025 By Handy</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b2</a></span></div><div class="footer_custom_text">Hi,  welcome  to  Handy's blog</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
