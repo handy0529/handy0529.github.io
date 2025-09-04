@@ -181,9 +181,10 @@
 <h2 id="二、什么是-BiLSTM？"><a href="#二、什么是-BiLSTM？" class="headerlink" title="二、什么是 BiLSTM？"></a>二、什么是 BiLSTM？</h2><h3 id="LSTM-回顾"><a href="#LSTM-回顾" class="headerlink" title="LSTM 回顾"></a>LSTM 回顾</h3><p>LSTM（长短期记忆网络）是一种特殊的 RNN，它解决了传统 RNN 在长序列学习中梯度消失的问题。</p>
 <p>它通过门控机制记住长时间的上下文。</p>
 <h3 id="↔️-双向-LSTM（BiLSTM）"><a href="#↔️-双向-LSTM（BiLSTM）" class="headerlink" title="↔️ 双向 LSTM（BiLSTM）"></a>↔️ 双向 LSTM（BiLSTM）</h3><p>在很多 NLP 任务中，一个词的含义依赖于它<strong>前后</strong>的词。BiLSTM 正是通过<strong>从前到后</strong>、<strong>从后到前</strong>两个方向分别编码信息，再拼接起来。</p>
+<p><img src="https://img.freepik.com/free-photo/robot-hand-finger-ai-background-technology-graphics_53876-129793.jpg"></p>
 <p><a target="_blank" rel="noopener" href="https://postimg.cc/hXYGDhCm"><img src="/images/image-20250629210012255-20250821211454570.png" alt="image-20250629210012255.png"></a></p>
 <p>1</p>
-<p><img src="/images/image-20250629210012255-5781600.png"></p>
+<p><img src="/images/image-20250629210012255-6970383.png"></p>
 <blockquote>
 <p>例如：处理“北京”这个词时，前向 LSTM 得知“在”，后向 LSTM 得知“工作”，有助于识别它是地名。</p>
 </blockquote>
